@@ -23,7 +23,7 @@ const navigationLinks = [
 
 export default function Navbar() {
   return (
-    <header className="border-b">
+    <header className="border-b sticky top-0 z-[999] backdrop-blur-md">
       <div className="container mx-auto px-4  flex h-20 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">
@@ -68,7 +68,7 @@ export default function Navbar() {
                   {navigationLinks.map((link, index) => (
                     <NavigationMenuItem key={index} className="w-full">
                       <NavigationMenuLink asChild
-                        className="py-1.5"
+                        className="py-1.5 hover:bg-transparent"
                       >
                         <Link to={link.href}>{link.label}</Link>
                         
@@ -89,7 +89,7 @@ export default function Navbar() {
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
                   <NavigationMenuItem key={index}>
-                    <NavigationMenuLink asChild className="text-muted-foreground hover:text-primary  py-1.5 font-semibold">
+                    <NavigationMenuLink asChild className="text-muted-foreground hover:bg-transparent hover:text-primary  py-1.5 font-semibold">
                         <Link to={link.href}>{link.label}</Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
