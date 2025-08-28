@@ -40,41 +40,32 @@ export function LoginForm({
   });
 
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
-  const toastId = toast.loading("Logging in...");
+    const toastId = toast.loading("Logging in...");
 
-  try {
-    const result = await login({
-      email: data.email,
-      password: data.password,
-    }).unwrap();
+    try {
+      const res = await login(data).unwrap();
 
-    toast.success("User logged in successfully 🎉", { id: toastId });
-    console.log(result);
+      if (res.success) {
+        toast.success("Logged in successfully", { id: toastId });
+        navigate("/");
+      }
+    } catch (err: any) {
+      console.error(err);
 
-    const { accessToken, refreshToken, user } = result.data;
-    
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
-
-    if (user.role === "DRIVER") {
-      navigate("/driver/dashboard");
-    } else if (user.role === "RIDER") {
-      navigate("/rider/dashboard");
-    } else {
-      toast.error("Unknown user role");
+      if (err.data.message === "Password does not match") {
+        toast.error("Invalid credentials");
+      }
     }
-  } catch (error: any) {
-    console.error(error);
-    toast.error(
-      error?.data?.message || "Login failed. Please check your credentials.",
-      { id: toastId }
-    );
-  }
-};
-
+  };
 
   return (
-    <div className={cn("flex flex-col gap-6 relative overflow-hidden p-6 border rounded-2xl", className)} {...props}>
+    <div
+      className={cn(
+        "flex flex-col gap-6 relative overflow-hidden p-6 border rounded-2xl",
+        className
+      )}
+      {...props}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Login to your account</h1>
         <p className="text-balance text-sm text-muted-foreground">

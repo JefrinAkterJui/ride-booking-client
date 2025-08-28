@@ -11,6 +11,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { authApi, useLogoutMutation, useUserInfoQuery } from "@/redux/freatures/auth/auth.api";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router";
 
 
@@ -22,6 +24,16 @@ const navigationLinks = [
 ];
 
 export default function Navbar() {
+  const {data} = useUserInfoQuery(undefined)
+  const [logout] = useLogoutMutation()
+  const dispatch = useDispatch()
+  console.log(data?.data)
+  
+  const handelLogout = async ()=>{
+    await logout(undefined)
+    dispatch(authApi.util.resetApiState())
+  }
+
   return (
     <header className="border-b sticky top-0 z-[999] backdrop-blur-md">
       <div className="container mx-auto px-4  flex h-20 items-center justify-between gap-4">
@@ -100,9 +112,16 @@ export default function Navbar() {
         </div>
         {/* Right side */}
         <div className="flex items-center gap-2">
-          <Button asChild size="lg" className="text-sm">
-            <Link to={"/login"}>Login</Link>
-          </Button>
+          {data?.data?.email && (
+            <Button onClick={handelLogout} variant={"outline"} size="lg" className="text-sm">
+              Logout
+            </Button>
+          )}
+          {!data?.data?.email && (
+            <Button asChild size="lg" className="text-sm">
+              <Link to={"/login"}>Login</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>
