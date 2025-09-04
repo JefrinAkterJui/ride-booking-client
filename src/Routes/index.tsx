@@ -1,8 +1,12 @@
 import App from "@/App";
+import DashboardLayout from "@/components/Layouts/DashboardLayout";
 import About from "@/pages/About";
+import Analytics from "@/pages/Admin/Analytics";
+import DriverAnalytics from "@/pages/Driver/Analytics";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
-import { createBrowserRouter } from "react-router";
+import RiderAnalytics from "@/pages/Rider/Analytics";
+import { createBrowserRouter, Navigate } from "react-router";
 
 export const router = createBrowserRouter([
     {
@@ -23,4 +27,38 @@ export const router = createBrowserRouter([
             }
         ]
     },
+    {
+        path:"/admin",
+        Component: DashboardLayout,
+        children:[
+            {
+                path:"/admin",
+                element: <Navigate to={"/admin/analytics"} replace={true}/>
+            },
+            {
+                path:"analytics",
+                Component: Analytics
+            }
+        ]
+    },
+    {
+        path:"/driver",
+        Component: DashboardLayout,
+        children:[
+            {
+                path:"analytics",
+                Component: DriverAnalytics
+            }
+        ]
+    },
+    {
+        path:"/rider",
+        Component: DashboardLayout,
+        children:[
+            {
+                path:"analytics",
+                Component: RiderAnalytics
+            }
+        ]
+    }
 ])
