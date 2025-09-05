@@ -1,5 +1,7 @@
 import App from "@/App";
 import DashboardLayout from "@/components/Layouts/DashboardLayout";
+import ManageRides from "@/components/Modules/Admin/ManageRides";
+import ManageUsers from "@/components/Modules/Admin/ManageUsers";
 import About from "@/pages/About";
 import Analytics from "@/pages/Admin/Analytics";
 import DriverAnalytics from "@/pages/Driver/Analytics";
@@ -38,6 +40,14 @@ export const router = createBrowserRouter([
             {
                 path:"analytics",
                 Component: Analytics
+            },
+            {
+                path:"users",
+                Component: ManageUsers
+            },
+            {
+                path:"rides", 
+                Component: ManageRides
             }
         ]
     },
